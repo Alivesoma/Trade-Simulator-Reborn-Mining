@@ -1,0 +1,191 @@
+print("Started Loading")
+
+local Player = game:GetService("Players").LocalPlayer
+
+local ScreenGui = Instance.new("ScreenGui")
+local Menu = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Debounce = Instance.new("TextBox")
+local UICorner_2 = Instance.new("UICorner")
+local GameToken = Instance.new("TextBox")
+local UICorner_3 = Instance.new("UICorner")
+local AutoDrops = Instance.new("TextButton")
+local UICorner_4 = Instance.new("UICorner")
+local AutoMine = Instance.new("TextButton")
+local UICorner_5 = Instance.new("UICorner")
+local Open = Instance.new("TextButton")
+
+ScreenGui.Parent = Player:WaitForChild("PlayerGui")--game:GetService("CoreGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.DisplayOrder = 999999999
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.ResetOnSpawn = false
+
+Menu.Name = "Menu"
+Menu.Parent = ScreenGui
+Menu.AnchorPoint = Vector2.new(0.5, 0)
+Menu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Menu.Position = UDim2.new(0.5, 0, 0, 30)
+Menu.Size = UDim2.new(0, 0, 0, 0)
+Menu.ClipsDescendants = true
+
+UICorner.CornerRadius = UDim.new(0, 5)
+UICorner.Parent = Menu
+
+Debounce.Name = "Debounce"
+Debounce.Parent = Menu
+Debounce.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Debounce.BorderColor3 = Color3.fromRGB(27, 42, 53)
+Debounce.Position = UDim2.new(0, 5, 0, 5)
+Debounce.Size = UDim2.new(0, 100, 0, 30)
+Debounce.Font = Enum.Font.SourceSans
+Debounce.Text = ""
+Debounce.TextColor3 = Color3.fromRGB(255, 255, 255)
+Debounce.TextSize = 20.000
+Debounce.ClearTextOnFocus = false
+Debounce.PlaceholderText = "Debounce"
+
+UICorner_2.CornerRadius = UDim.new(0, 5)
+UICorner_2.Parent = Debounce
+
+GameToken.Name = "GameToken"
+GameToken.Parent = Menu
+GameToken.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+GameToken.BorderColor3 = Color3.fromRGB(27, 42, 53)
+GameToken.Position = UDim2.new(0, 110, 0, 5)
+GameToken.Size = UDim2.new(0, 100, 0, 30)
+GameToken.Font = Enum.Font.SourceSans
+GameToken.Text = ""
+GameToken.TextColor3 = Color3.fromRGB(255, 255, 255)
+GameToken.TextSize = 20.000
+GameToken.ClearTextOnFocus = false
+GameToken.PlaceholderText = "Game Token"
+
+UICorner_3.CornerRadius = UDim.new(0, 5)
+UICorner_3.Parent = GameToken
+
+AutoDrops.Name = "AutoDrops"
+AutoDrops.Parent = Menu
+AutoDrops.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+AutoDrops.BorderColor3 = Color3.fromRGB(27, 42, 53)
+AutoDrops.Position = UDim2.new(0, 5, 0, 40)
+AutoDrops.Size = UDim2.new(0, 205, 0, 35)
+AutoDrops.Font = Enum.Font.SourceSans
+AutoDrops.Text = "Auto Collect Drops       :  OFF"
+AutoDrops.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoDrops.TextSize = 20.000
+
+UICorner_4.CornerRadius = UDim.new(0, 5)
+UICorner_4.Parent = AutoDrops
+
+AutoMine.Name = "AutoMine"
+AutoMine.Parent = Menu
+AutoMine.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+AutoMine.BorderColor3 = Color3.fromRGB(27, 42, 53)
+AutoMine.Position = UDim2.new(0, 5, 0, 80)
+AutoMine.Size = UDim2.new(0, 205, 0, 35)
+AutoMine.Font = Enum.Font.SourceSans
+AutoMine.Text = "Auto Mine                           :  OFF"
+AutoMine.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoMine.TextSize = 20.000
+
+UICorner_5.CornerRadius = UDim.new(0, 5)
+UICorner_5.Parent = AutoMine
+
+Open.Name = "Open"
+Open.Parent = ScreenGui
+Open.AnchorPoint = Vector2.new(0.5, 0)
+Open.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Open.BorderColor3 = Color3.fromRGB(40, 40, 40)
+Open.Position = UDim2.new(0.5, 0, 0, 0)
+Open.Size = UDim2.new(0, 50, 0, 25)
+Open.Font = Enum.Font.SourceSans
+Open.Text = "Open"
+Open.TextColor3 = Color3.fromRGB(255, 255, 255)
+Open.TextSize = 20.000
+
+print("Gui Loaded")
+
+local MenuOpen = false
+local AutoMineT = false
+local AutoCollT = false
+
+local DebounceO = 0
+local Token = 0
+
+local Blocks = workspace:WaitForChild("Mine"):WaitForChild("Blocks")
+local Coins = workspace:WaitForChild("_yes")
+
+Open.MouseButton1Down:Connect(function()
+	MenuOpen = not MenuOpen
+	if MenuOpen then
+		game:GetService("TweenService"):Create(Menu,TweenInfo.new(.25,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size = UDim2.new(0, 215, 0, 120)}):Play()
+	else
+		game:GetService("TweenService"):Create(Menu,TweenInfo.new(.25,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size = UDim2.new(0, 0, 0, 0)}):Play()
+	end
+end)
+
+Debounce.FocusLost:Connect(function()
+	DebounceO = tonumber(Debounce.Text) or 1
+end)
+
+GameToken.FocusLost:Connect(function()
+	Token = tonumber(GameToken.Text) or 1
+end)
+
+AutoDrops.MouseButton1Down:Connect(function()
+	AutoCollT = not AutoCollT
+	
+	if AutoCollT then
+		AutoDrops.Text = "Auto Collect Drops       :   ON"
+		
+		local Children = Coins:GetDescendants()
+		for Index,Value in pairs(Children) do
+			if Value:IsA("ClickDetector") then
+				fireclickdetector(Value)
+			end
+		end
+		
+	else
+		AutoDrops.Text = "Auto Collect Drops       :  OFF"
+	end
+end)
+
+AutoMine.MouseButton1Down:Connect(function()
+	AutoMineT = not AutoMineT
+	if AutoMineT then
+		AutoMine.Text = "Auto Mine                           :   ON"
+	else
+		AutoMine.Text = "Auto Mine                           :  OFF"
+	end
+end)
+
+Coins.DescendantAdded:Connect(function(Coin)
+	if AutoCollT == true then
+		
+		local Children = Coins:GetDescendants()
+		for Index,Value in pairs(Children) do
+			if Value:IsA("ClickDetector") then
+				fireclickdetector(Value)
+			end
+		end
+		
+	end
+end)
+
+while true do
+	wait(Debounce or 1)
+	if AutoMineT == true then 
+	    
+	    local Children = Blocks:GetChildren()
+	    for Index,Value in pairs(Children) do
+		    local args = {
+			    [1] = Value,
+			    [2] = Token
+		    }
+
+		    game:GetService("ReplicatedStorage").breakblock:FireServer(unpack(args))
+	    end 
+	
+	end
+end
